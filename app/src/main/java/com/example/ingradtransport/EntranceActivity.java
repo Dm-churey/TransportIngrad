@@ -53,7 +53,6 @@ public class EntranceActivity extends AppCompatActivity {
         EditText password = edit_password;
 
         mainApi = RetrofitClient.getInstance().getMainApi();
-        //viewModel = new ViewModelProvider(MainActivity()).get(LoginViewModel.class);
         vxod_button.setOnClickListener(v ->
                         login(new AuthRequest(
                                 login.getText().toString(),
