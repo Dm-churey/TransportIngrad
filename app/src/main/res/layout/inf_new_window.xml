@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/yellow"
+    app:cardElevation="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/appl_item_purpose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/appl_item_purpose"
+
+            android:textColor="@color/black1"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/appl_item_addr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:text="Адрес:"
+            android:textColor="@color/black1"
+            android:textStyle="bold"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/appl_item_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/appl_item_address"
+
+            android:textColor="@color/black1"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/appl_item_dt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:text="Дата поездки:"
+            android:textColor="@color/black1"
+            android:textStyle="bold"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/appl_item_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/appl_item_date"
+
+            android:textColor="@color/black1"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/appl_item_fio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:text="Заказчик:"
+            android:textColor="@color/black1"
+            android:textStyle="bold"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/appl_item_client"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/appl_item_client"
+
+            android:textColor="@color/black1"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/appl_item_str_fnsh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:text="Время начала и окончания:"
+            android:textColor="@color/black1"
+            android:textStyle="bold"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/appl_item_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/appl_item_start"
+
+            android:textColor="@color/black1"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/appl_item_finish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="@string/appl_item_finish"
+            android:textColor="@color/black1"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/appl_item_com"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:text="Комментарий:"
+            android:textColor="@color/black1"
+            android:textStyle="bold"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/appl_item_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="@string/appl_item_comment"
+            android:textColor="@color/black1"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/appl_item_st"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:text="Статус:"
+            android:textColor="@color/black1"
+            android:textStyle="bold"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/appl_item_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="@string/appl_item_status"
+            android:textColor="@color/black1"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/appl_item_dr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:text="Выберите водителя:"
+            android:textColor="@color/black1"
+            android:textStyle="bold"
+            android:textSize="17sp" />
+
+        <Spinner
+            android:id="@+id/appl_item_spin"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+
+            android:textColor="@color/black1"
+            android:textStyle="bold"
+            android:textSize="17sp"/>
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="custom_dialog" parent="Theme.MaterialComponents.Dialog.Alert">
+        <item name="textColorAlertDialogListItem">@color/black1</item>
+        <item name="android:textColorPrimary">@color/black1</item>
+        <item name="android:backgroundTint">@color/yellow</item>
+
+    </style>
+</resources>
+
+<!--<item name="android:dialogCornerRadius">20dp</item>-->

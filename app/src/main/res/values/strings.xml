@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">Инград Транспорт</string>
+    <string name="vxod_button">Войти</string>
+    <string name="regisration_button">Зарегистрироваться</string>
+
+    <string name="back_button">Переход на страницу назад</string>
+    <string name="authorization_text">Вход в личный кабинет</string>
+    <string name="hint_login">Введите логин</string>
+    <string name="hint_password">Введите пароль</string>
+    <string name="podskaz2_text">Введите логин и пароль</string>
+
+    <string name="name">Введите имя</string>
+    <string name="lastname">Введите фамилию</string>
+    <string name="patronymic">Введите отчество</string>
+    <string name="age">Возраст</string>
+    <string name="phone">Номер телефона</string>
+    <string name="post">Должность</string>
+
+    <string name="appl_item_purpose">Цель поездки</string>
+    <string name="appl_item_date">Дата поездки</string>
+    <string name="button_details">Кнопка</string>
+    <string name="appl_item_address">Адрес</string>
+    <string name="appl_item_client">ФИО заказчика</string>
+    <string name="appl_item_start">Время начала</string>
+    <string name="appl_item_finish">Время окончания</string>
+    <string name="appl_item_comment">Коментарий</string>
+    <string name="appl_item_status">Статус</string>
+    <string name="appl_item_driver">Водитель</string>
+
+    <string name="address_field">Укажите адрес поездки</string>
+    <string name="start_time_field">Время начала поездки</string>
+    <string name="finish_time_field">Время окончания поездки</string>
+    <string name="comment_field">Отсавьте комментарий</string>
+
+    <string name="my_timetable">Моё распиание</string>
+    <string name="my_appl">Мои заказы</string>
+    <string name="new_appl">Новые заявки</string>
+    <string name="approve_appl">Согласованные заявки</string>
+    <string name="text_no">У Вас нет согласованных заявок</string>
+    <string name="approve_appl_button">Согласованные заявки</string>
+    <string name="new_appl_button">Заказать транспорт</string>
+
+
+    <string name="exit_button">Выход</string>
+
+    <string name="menu_button">Кнопка меню</string>
+    <string name="lastname_menu">Фамилия</string>
+    <string name="name_menu">Имя</string>
+    <string name="main_btn_menu">Главная</string>
+    <string name="appl_btn_menu">Заявки</string>
+    <string name="account_btn_menu">Личный кабинет</string>
+    <string name="settings_btn_menu">Настройки</string>
+    <string name="open_nav_drawer">Открыть меню</string>
+    <string name="close_nav_drawer">Закрыть меню</string>
+    <string name="title_activity_boss">BossActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

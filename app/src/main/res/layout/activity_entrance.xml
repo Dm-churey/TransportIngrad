@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/yellow"
+    android:id="@+id/root_entrance"
+    tools:context=".EntranceActivity">
+
+
+    <LinearLayout
+        android:id="@+id/back_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="0dp">
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/yellow"
+            app:srcCompat="@drawable/back"
+            android:contentDescription="@string/back_button"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/vxod_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/back_layout"
+        android:layout_marginTop="0dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageIngrad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/logo_ingrag_osn" />
+
+        <TextView
+            android:id="@+id/authorization_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/authorization_text"
+            android:textSize="30sp"
+            android:fontFamily="@font/kanit"
+            android:textStyle="bold"
+            android:textColor="@color/black1"
+            android:textAlignment="center"
+            android:layout_marginTop="0dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/vxod_layout"
+        android:layout_marginTop="65dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/edit_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:hint="@string/hint_login"
+            android:fontFamily="@font/inter"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/edit_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:layout_marginTop="25dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:hint="@string/hint_password"
+            android:fontFamily="@font/inter"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/vxod_button"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/black1"
+        app:rippleColor="@color/black_ripple"
+        app:cornerRadius="20dp"
+        android:text="@string/vxod_button"
+        android:fontFamily="@font/inter"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/podskaz2_text"
+        android:layout_marginBottom="30dp"/>
+
+    <TextView
+        android:id="@+id/podskaz2_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textSize="20sp"
+        android:fontFamily="@font/inter"
+        android:textColor="@color/black1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:text="@string/podskaz2_text" />
+
+
+</RelativeLayout>

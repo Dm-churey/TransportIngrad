@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="3dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="3dp"
+    app:cardElevation="15dp"
+    app:cardCornerRadius="25dp"
+    app:cardBackgroundColor="@color/card">
+<!--    card_view:background="@drawable/card_view_border"-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_view_border">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/appl_item_purpose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/appl_item_purpose"
+                android:fontFamily="@font/kanit"
+                android:textColor="@color/black1"
+                android:textSize="23sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/appl_item_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/appl_item_date"
+
+                android:textColor="@color/black1"
+                android:textSize="20sp"/>
+
+            <Button
+                android:id="@+id/button_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/yellow"
+                android:fontFamily="@font/inter"
+                android:text="@string/button_details"
+                android:textColor="@color/black1"
+                android:textSize="17sp"
+                app:cornerRadius="20dp"
+                app:rippleColor="@color/yellow_ripple"  />
+        </LinearLayout>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
