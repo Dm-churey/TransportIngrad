@@ -3,10 +3,12 @@ package com.example.ingradtransport.bossfragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,15 +16,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ingradtransport.R;
 import com.example.ingradtransport.adapter.ApplicationAdapter;
+import com.example.ingradtransport.adapter.DriverAdapter;
 import com.example.ingradtransport.adapter.EarlyApplicationAdapter;
 import com.example.ingradtransport.adapter.SortApplAdapter;
 import com.example.ingradtransport.model.Application;
+import com.example.ingradtransport.model.ApproveAppl;
 import com.example.ingradtransport.model.SortOption;
 import com.example.ingradtransport.model.User;
 import com.example.ingradtransport.preferences.SharedPreferences;
@@ -34,19 +41,21 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class NewApplicationBossFragment extends Fragment implements EarlyApplicationAdapter.OnDetailsClickListener {
-    private ApplicationAdapter adapter;
-    private SortApplAdapter adapter_sort;
+    //private ApplicationAdapter adapter;
+    //private SortApplAdapter adapter_sort;
     private EarlyApplicationAdapter earlyApplicationAdapter;
     private RecyclerView r_view, r_sort;
     private MainApi mainApi;
     private Context mContext;
     private TextView textView;
     RelativeLayout root;
+    CardView inf_new_window;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -146,7 +155,7 @@ public class NewApplicationBossFragment extends Fragment implements EarlyApplica
         TextView finish = inf_new_window.findViewById(R.id.appl_item_finish);
         TextView comment = inf_new_window.findViewById(R.id.appl_item_comment);
         TextView status = inf_new_window.findViewById(R.id.appl_item_status);
-        Spinner driver = inf_new_window.findViewById(R.id.appl_item_spin);
+        Spinner driverSpinner = inf_new_window.findViewById(R.id.appl_item_spin);
 
         purpose.setText(application.getPurpose());
         address.setText(application.getAddress());
@@ -156,8 +165,22 @@ public class NewApplicationBossFragment extends Fragment implements EarlyApplica
         finish.setText(application.getFinish_time());
         comment.setText(application.getComment());
         status.setText(application.getStatus());
-
-        // Здесь вы можете добавить код для загрузки списка водителей и установки его в Spinner
+        // Загрузка списка водителей
+        loadDrivers(driverSpinner);
+//        driverSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                User selectedDriver = (User) parent.getItemAtPosition(position);
+//                // Здесь вы можете обработать выбранного водителя, например, сохранить его ID
+//                String fullName = selectedDriver.getLastname() + " " + selectedDriver.getName() + " " + selectedDriver.getPatronymic();
+//                Toast.makeText(mContext, "Выбран водитель: " + fullName, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                // Обработайте случай, когда ничего не выбрано
+//            }
+//        });
 
         dialog.setNeutralButton("ОК", new DialogInterface.OnClickListener() {
             @Override
@@ -173,13 +196,64 @@ public class NewApplicationBossFragment extends Fragment implements EarlyApplica
             }
         });
 
-        dialog.setPositiveButton("Согласовать", new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton("Утвердить", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                User selectedDriver = (User) driverSpinner.getSelectedItem();
+                if (selectedDriver != null) {
+                    // Выполните сетевой запрос для обновления заявки
+                    approveApplication(application.getId(), selectedDriver.getId());
+                }
                 dialogInterface.dismiss();
             }
         });
         dialog.show();
+    }
+
+    private void loadDrivers(Spinner spinner) {
+        Call<List<User>> call = mainApi.getDrivers();
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<User> drivers = response.body();
+                    // Заполнение Spinner данными c помощью кастомного адаптера
+                    //Typeface typeface = Typeface.create("sans-serif-light", Typeface.NORMAL);
+                    float textSize = 20;
+                    DriverAdapter adapter_driver = new DriverAdapter(mContext, drivers, textSize);
+                    spinner.setAdapter(adapter_driver);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                Snackbar.make(inf_new_window, "Ошибка сети", Snackbar.LENGTH_LONG).setTextColor(0XFF101820).setBackgroundTint(0XFFFFFFFF).show();
+            }
+        });
+    }
+
+    private void approveApplication(int application_id, int driver_id) {
+        mainApi = RetrofitClient.getInstance().getMainApi();
+        ApproveAppl approveAppl = new ApproveAppl(driver_id);
+        Call<ResponseBody> call = mainApi.approveApplication(application_id, approveAppl);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    // Обработка успешного согласования
+                    Toast.makeText(mContext, "Заявка одобрена успешно", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Обработка ошибки обновления
+                    Toast.makeText(mContext, "Ошибка обновления заявки", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                // Обработка ошибки сети
+                Toast.makeText(mContext, "Ошибка сети", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

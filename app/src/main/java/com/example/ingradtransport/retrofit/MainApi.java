@@ -1,6 +1,7 @@
 package com.example.ingradtransport.retrofit;
 
 import com.example.ingradtransport.model.Application;
+import com.example.ingradtransport.model.ApproveAppl;
 import com.example.ingradtransport.model.AuthCheckRequest;
 import com.example.ingradtransport.model.AuthRequest;
 import com.example.ingradtransport.model.NewApplReq;
@@ -10,14 +11,17 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface MainApi {
 //    @GET("appl/applications/{id}") //получение заявки по ее id
@@ -59,4 +63,8 @@ public interface MainApi {
 
     @GET("api/user/drivers") // получение списка всех водителей
     Call<List<User>> getDrivers();
+
+    @PATCH("appl/applications/approve/{id}")  // согласование заявки с обновлением информации о водителе
+    Call<ResponseBody> approveApplication(@Path("id") int application_id,
+                                          @Body ApproveAppl approveAppl);
 }
