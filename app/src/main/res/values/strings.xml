@@ -37,6 +37,7 @@
     <string name="new_appl">Новые заявки</string>
     <string name="approve_appl">Согласованные заявки</string>
     <string name="text_no">У Вас нет согласованных заявок</string>
+    <string name="text_no_new">Нет новых заявок</string>
     <string name="approve_appl_button">Согласованные заявки</string>
     <string name="new_appl_button">Заказать транспорт</string>
 

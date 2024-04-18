@@ -1,6 +1,7 @@
 package com.example.ingradtransport.bossfragment;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
@@ -103,7 +104,7 @@ public class NewApplicationBossFragment extends Fragment implements EarlyApplica
 //        r_sort.setAdapter(adapter_sort);
 
         root = view.findViewById(R.id.rt_elem);
-        textView = view.findViewById(R.id.text_no);
+        textView = view.findViewById(R.id.text_no_new);
         textView.setVisibility(View.GONE);
 
 
@@ -167,20 +168,6 @@ public class NewApplicationBossFragment extends Fragment implements EarlyApplica
         status.setText(application.getStatus());
         // Загрузка списка водителей
         loadDrivers(driverSpinner);
-//        driverSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                User selectedDriver = (User) parent.getItemAtPosition(position);
-//                // Здесь вы можете обработать выбранного водителя, например, сохранить его ID
-//                String fullName = selectedDriver.getLastname() + " " + selectedDriver.getName() + " " + selectedDriver.getPatronymic();
-//                Toast.makeText(mContext, "Выбран водитель: " + fullName, Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                // Обработайте случай, когда ничего не выбрано
-//            }
-//        });
 
         dialog.setNeutralButton("ОК", new DialogInterface.OnClickListener() {
             @Override
@@ -192,6 +179,7 @@ public class NewApplicationBossFragment extends Fragment implements EarlyApplica
         dialog.setNegativeButton("Отклонить", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                deleteApplication(application.getId());
                 dialogInterface.dismiss();
             }
         });
@@ -201,7 +189,7 @@ public class NewApplicationBossFragment extends Fragment implements EarlyApplica
             public void onClick(DialogInterface dialogInterface, int i) {
                 User selectedDriver = (User) driverSpinner.getSelectedItem();
                 if (selectedDriver != null) {
-                    // Выполните сетевой запрос для обновления заявки
+                    // Сетевой запрос для обновления заявки
                     approveApplication(application.getId(), selectedDriver.getId());
                 }
                 dialogInterface.dismiss();
@@ -251,6 +239,25 @@ public class NewApplicationBossFragment extends Fragment implements EarlyApplica
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 // Обработка ошибки сети
+                Toast.makeText(mContext, "Ошибка сети", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void deleteApplication(int id) {
+        Call<Void> call = mainApi.deleteApplication(id);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(mContext, "Заявка отклонена успешно", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mContext, "Ошибка отклонения заявки", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(mContext, "Ошибка сети", Toast.LENGTH_SHORT).show();
             }
         });

@@ -67,4 +67,7 @@ public interface MainApi {
     @PATCH("appl/applications/approve/{id}")  // согласование заявки с обновлением информации о водителе
     Call<ResponseBody> approveApplication(@Path("id") int application_id,
                                           @Body ApproveAppl approveAppl);
+
+    @HTTP(method = "DELETE", path = "appl/applications/{id}", hasBody = true) //удаление сессии при выходе из аккаунта
+    Call<Void> deleteApplication(@Path("id") int id);
 }

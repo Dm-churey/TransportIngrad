@@ -68,8 +68,6 @@ public class ApplicationBossFragment extends Fragment {
         r_view.setLayoutManager(new LinearLayoutManager(mContext));
 
         adapter = new ApplicationAdapter(mContext);
-        //adapter_early = new EarlyApplicationAdapter(mContext);
-        //r_view.setAdapter(adapter_early);
         r_view.setAdapter(adapter);
 
         r_sort = view.findViewById(R.id.sortRecycler);
@@ -143,6 +141,7 @@ public class ApplicationBossFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Application>> call, Throwable t) {
+                //textView.setVisibility(View.VISIBLE);
                 Snackbar.make(root, "Ошибка сети", Snackbar.LENGTH_LONG).setTextColor(0XFF101820).setBackgroundTint(0XFFFFFFFF).show();
             }
         });
