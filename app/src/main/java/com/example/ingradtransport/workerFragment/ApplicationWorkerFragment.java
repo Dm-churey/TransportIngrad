@@ -32,6 +32,7 @@ import com.example.ingradtransport.model.User;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -67,13 +68,14 @@ public class ApplicationWorkerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         r_view = view.findViewById(R.id.r_view);
-        r_view.setLayoutManager(new LinearLayoutManager(mContext));
+        r_sort = view.findViewById(R.id.sortRecycler);
 
+        r_view.setLayoutManager(new LinearLayoutManager(mContext));
+        r_sort.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+
+        List<Application> applications = new ArrayList<>();
         adapter = new ApplicationAdapter(mContext);
         r_view.setAdapter(adapter);
-
-        r_sort = view.findViewById(R.id.sortRecycler);
-        r_sort.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
 
         List<SortOption> sortOptions = Arrays.asList(
                 new SortOption("Все", 1),
@@ -84,7 +86,7 @@ public class ApplicationWorkerFragment extends Fragment {
         );
 
         adapter_sort = new SortApplAdapter(getContext(), sortOptions, sortOption -> {
-            adapter.filterApplications(adapter.getCurrentList(), sortOption.getTitle());
+            adapter.filterApplications(sortOption.getTitle());
         }, adapter);
 
         r_sort.setAdapter(adapter_sort);
@@ -109,6 +111,7 @@ public class ApplicationWorkerFragment extends Fragment {
                     requireActivity().runOnUiThread(() -> {
                         application.sort(new Application.ApplicationComparator()); // сортировка по дате
                         adapter.submitList(application);
+                        adapter.updateOriginalApplications(application);
                     });
                 }
                 if (response.code() != 200) {

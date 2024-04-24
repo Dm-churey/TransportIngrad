@@ -14,7 +14,7 @@
     <string name="patronymic">Введите отчество</string>
     <string name="age">Возраст</string>
     <string name="phone">Номер телефона</string>
-    <string name="post">Должность</string>
+    <string name="post">Должность:</string>
 
     <string name="appl_item_purpose">Цель поездки</string>
     <string name="appl_item_date">Дата поездки</string>

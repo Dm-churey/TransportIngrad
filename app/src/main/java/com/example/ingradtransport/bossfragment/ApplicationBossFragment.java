@@ -34,6 +34,7 @@ import com.example.ingradtransport.model.User;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,9 +43,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ApplicationBossFragment extends Fragment {
+    //private ApplicationAdapterNew applicationAdapterNew;
+    //private List<Application> originalApplications;
+    //private SortApplAdapterNew sortApplAdapterNew;
     private ApplicationAdapter adapter;
     private SortApplAdapter adapter_sort;
-    //private EarlyApplicationAdapter adapter_early;
     private RecyclerView r_view, r_sort;
     private MainApi mainApi;
     private Context mContext;
@@ -65,13 +68,14 @@ public class ApplicationBossFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_application_boss, container, false);
 
         r_view = view.findViewById(R.id.r_view);
-        r_view.setLayoutManager(new LinearLayoutManager(mContext));
+        r_sort = view.findViewById(R.id.sortRecycler);
 
+        r_view.setLayoutManager(new LinearLayoutManager(mContext));
+        r_sort.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+
+        List<Application> applications = new ArrayList<>();
         adapter = new ApplicationAdapter(mContext);
         r_view.setAdapter(adapter);
-
-        r_sort = view.findViewById(R.id.sortRecycler);
-        r_sort.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
 
         List<SortOption> sortOptions = Arrays.asList(
                 new SortOption("Все", 1),
@@ -81,9 +85,8 @@ public class ApplicationBossFragment extends Fragment {
                 new SortOption("Месяц", 5)
         );
 
-
         adapter_sort = new SortApplAdapter(getContext(), sortOptions, sortOption -> {
-            adapter.filterApplications(adapter.getCurrentList(), sortOption.getTitle());
+            adapter.filterApplications(sortOption.getTitle());
         }, adapter);
 
         r_sort.setAdapter(adapter_sort);
@@ -133,7 +136,9 @@ public class ApplicationBossFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Application> application = response.body();
                     application.sort(new Application.ApplicationComparator()); // сортировка по дате
+                    //originalApplications = new ArrayList<>(application);
                     adapter.submitList(application);
+                    adapter.updateOriginalApplications(application);
                 } else {
                     textView.setVisibility(View.VISIBLE);
                 }
