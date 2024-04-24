@@ -25,6 +25,7 @@ import com.example.ingradtransport.retrofit.RetrofitClient;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import retrofit2.Response;
 public class EarlyApplicationAdapter extends ListAdapter<Application, EarlyApplicationAdapter.Holder> {
 
     private Map<Application, Boolean> itemVisibilityMap = new HashMap<>();
+    private List<Application> originalApplications;
     private OnDetailsClickListener onDetailsClickListener;
 
     static class Holder extends RecyclerView.ViewHolder {
@@ -74,6 +76,7 @@ public class EarlyApplicationAdapter extends ListAdapter<Application, EarlyAppli
     public EarlyApplicationAdapter(Context context) {
         super(new Comparator());
         this.context = context;
+        this.originalApplications = new ArrayList<>(); // Инициализация пустым списком
     }
 
     @NonNull
@@ -86,14 +89,16 @@ public class EarlyApplicationAdapter extends ListAdapter<Application, EarlyAppli
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         Application application = getItem(position);
-        boolean isVisible = itemVisibilityMap.getOrDefault(application, true);
-
-        if (isVisible) {
-            holder.bind(application);
-            holder.itemView.setVisibility(View.VISIBLE);
-        } else {
-            holder.itemView.setVisibility(View.GONE);
-        }
+        holder.bind(application);
+        holder.itemView.setVisibility(View.VISIBLE);
+//        boolean isVisible = itemVisibilityMap.getOrDefault(application, true);
+//
+//        if (isVisible) {
+//            holder.bind(application);
+//            holder.itemView.setVisibility(View.VISIBLE);
+//        } else {
+//            holder.itemView.setVisibility(View.GONE);
+//        }
 
         holder.button_details.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,50 +118,98 @@ public class EarlyApplicationAdapter extends ListAdapter<Application, EarlyAppli
         this.onDetailsClickListener = listener;
     }
 
-    public void setItemVisibility(Application application, boolean isVisible) {
-        itemVisibilityMap.put(application, isVisible);
-        notifyDataSetChanged();
+    public void updateOriginalApplications(List<Application> applications) {
+        this.originalApplications = new ArrayList<>(applications);
     }
 
-    public void filterApplications(List<Application> applications, String filter) { // Скрытие ненужних заявок в списке при фильтрации по выбранной опции
-        for (Application application : applications) {
-            setItemVisibility(application, true);
-        }
-
+    public void filterApplications(String filter) {
+        List<Application> filteredApplications = new ArrayList<>();
         switch (filter) {
             case "Все":
+                filteredApplications.addAll(originalApplications);
                 break;
             case "Сегодня":
-                filterByDate(applications, LocalDate.now());
+                filterByDate(filteredApplications, LocalDate.now());
                 break;
             case "Завтра":
-                filterByDate(applications, LocalDate.now().plusDays(1));
+                filterByDate(filteredApplications, LocalDate.now().plusDays(1));
                 break;
             case "Неделя":
-                filterByDateRange(applications, LocalDate.now(), LocalDate.now().plusWeeks(1));
+                filterByDateRange(filteredApplications, LocalDate.now(), LocalDate.now().plusWeeks(1));
                 break;
             case "Месяц":
-                filterByDateRange(applications, LocalDate.now(), LocalDate.now().plusMonths(1));
+                filterByDateRange(filteredApplications, LocalDate.now(), LocalDate.now().plusMonths(1));
                 break;
             default:
                 // Если выбран неизвестный фильтр, не применяем фильтрацию
         }
-
+        submitList(filteredApplications); // Обновляем адаптер с отфильтрованным списком
     }
 
-    private void filterByDate(List<Application> applications, LocalDate date) {
+    private void filterByDate(List<Application> filteredApplications, LocalDate date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        for (Application application : applications) {
+        for (Application application : originalApplications) {
             LocalDate appDate = LocalDate.parse(application.getDate(), formatter);
-            setItemVisibility(application, appDate.isEqual(date));
+            if (appDate.isEqual(date)) {
+                filteredApplications.add(application);
+            }
         }
     }
-    private void filterByDateRange(List<Application> applications, LocalDate startDate, LocalDate endDate) {
+
+    private void filterByDateRange(List<Application> filteredApplications, LocalDate startDate, LocalDate endDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        for (Application application : applications) {
+        for (Application application : originalApplications) {
             LocalDate appDate = LocalDate.parse(application.getDate(), formatter);
-            setItemVisibility(application, appDate.isAfter(startDate) && appDate.isBefore(endDate));
+            if (appDate.isAfter(startDate) && appDate.isBefore(endDate)) {
+                filteredApplications.add(application);
+            }
         }
     }
+
+//    public void setItemVisibility(Application application, boolean isVisible) {
+//        itemVisibilityMap.put(application, isVisible);
+//        notifyDataSetChanged();
+//    }
+
+//    public void filterApplications(List<Application> applications, String filter) { // Скрытие ненужних заявок в списке при фильтрации по выбранной опции
+//        for (Application application : applications) {
+//            setItemVisibility(application, true);
+//        }
+//
+//        switch (filter) {
+//            case "Все":
+//                break;
+//            case "Сегодня":
+//                filterByDate(applications, LocalDate.now());
+//                break;
+//            case "Завтра":
+//                filterByDate(applications, LocalDate.now().plusDays(1));
+//                break;
+//            case "Неделя":
+//                filterByDateRange(applications, LocalDate.now(), LocalDate.now().plusWeeks(1));
+//                break;
+//            case "Месяц":
+//                filterByDateRange(applications, LocalDate.now(), LocalDate.now().plusMonths(1));
+//                break;
+//            default:
+//                // Если выбран неизвестный фильтр, не применяем фильтрацию
+//        }
+//
+//    }
+//
+//    private void filterByDate(List<Application> applications, LocalDate date) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//        for (Application application : applications) {
+//            LocalDate appDate = LocalDate.parse(application.getDate(), formatter);
+//            setItemVisibility(application, appDate.isEqual(date));
+//        }
+//    }
+//    private void filterByDateRange(List<Application> applications, LocalDate startDate, LocalDate endDate) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//        for (Application application : applications) {
+//            LocalDate appDate = LocalDate.parse(application.getDate(), formatter);
+//            setItemVisibility(application, appDate.isAfter(startDate) && appDate.isBefore(endDate));
+//        }
+//    }
 
 }

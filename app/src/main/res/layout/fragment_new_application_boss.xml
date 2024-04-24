@@ -19,14 +19,14 @@
         android:layout_marginTop="5dp"
         android:layout_centerHorizontal="true"/>
 
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/sortRecycler"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="34dp"-->
-<!--        android:layout_below="@+id/new_appl"-->
-<!--        android:layout_marginStart="2dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:layout_marginEnd="2dp" />-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sortRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:layout_below="@+id/new_appl"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="2dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/r_view"
@@ -35,7 +35,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
-        android:layout_below="@+id/new_appl"
+        android:layout_below="@+id/sortRecycler"
         android:background="@color/white"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="5dp" />
