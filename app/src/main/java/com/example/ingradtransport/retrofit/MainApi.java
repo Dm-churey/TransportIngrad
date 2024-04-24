@@ -5,6 +5,7 @@ import com.example.ingradtransport.model.ApproveAppl;
 import com.example.ingradtransport.model.AuthCheckRequest;
 import com.example.ingradtransport.model.AuthRequest;
 import com.example.ingradtransport.model.NewApplReq;
+import com.example.ingradtransport.model.NotApproveAppl;
 import com.example.ingradtransport.model.User;
 
 import org.json.JSONObject;
@@ -68,6 +69,10 @@ public interface MainApi {
     Call<ResponseBody> approveApplication(@Path("id") int application_id,
                                           @Body ApproveAppl approveAppl);
 
-    @HTTP(method = "DELETE", path = "appl/applications/{id}", hasBody = true) //удаление сессии при выходе из аккаунта
+    @PATCH("appl/applications/not_approve/{id}")  // отказ в согласовании заявки
+    Call<ResponseBody> notApproveApplication(@Path("id") int application_id,
+                                             @Body NotApproveAppl notApproveAppl);
+
+    @HTTP(method = "DELETE", path = "appl/applications/{id}", hasBody = true) //удаление заявки при отказе
     Call<Void> deleteApplication(@Path("id") int id);
 }

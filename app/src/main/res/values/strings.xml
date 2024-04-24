@@ -41,6 +41,11 @@
     <string name="approve_appl_button">Согласованные заявки</string>
     <string name="new_appl_button">Заказать транспорт</string>
 
+    <string name="first_reason">Отсуствие транспорта</string>
+    <string name="second_reason">Несоотвествие приоритетности предоставления транспорта</string>
+    <string name="third_reason">Близость пункта назначения к метро</string>
+    <string name="fourth_reason">Форс-мажорные обстоятельства</string>
+
 
     <string name="exit_button">Выход</string>
 
