@@ -9,106 +9,119 @@
     app:cardElevation="10dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_gravity="center">
 
         <EditText
             android:id="@+id/name_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="330dp"
+            android:layout_height="48dp"
             android:hint="@string/name"
             android:minHeight="48dp"
             android:text=""
             android:textColor="@color/black1"
-            android:textSize="18sp" />
+            android:textSize="16sp"
+            android:fontFamily="@font/inter"
+            />
 
         <EditText
             android:id="@+id/lastname_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="330dp"
+            android:layout_height="48dp"
             android:hint="@string/lastname"
             android:minHeight="48dp"
             android:text=""
             android:textColor="@color/black1"
-            android:textSize="18sp" />
+            android:textSize="16sp"
+            android:fontFamily="@font/inter" />
 
         <EditText
             android:id="@+id/patronymic_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="330dp"
+            android:layout_height="48dp"
             android:hint="@string/patronymic"
             android:minHeight="48dp"
             android:text=""
             android:textColor="@color/black1"
-            android:textSize="18sp" />
+            android:textSize="16sp"
+            android:fontFamily="@font/inter" />
 
         <EditText
             android:id="@+id/age_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="330dp"
+            android:layout_height="48dp"
             android:hint="@string/age"
             android:inputType="number"
             android:minHeight="48dp"
             android:textColor="@color/black1"
-            android:textSize="18sp" />
+            android:textSize="16sp"
+            android:fontFamily="@font/inter" />
 
         <EditText
             android:id="@+id/phone_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="330dp"
+            android:layout_height="48dp"
             android:hint="@string/phone"
             android:inputType="phone"
             android:minHeight="48dp"
             android:textColor="@color/black1"
-            android:textSize="18sp" />
+            android:textSize="16sp"
+            android:fontFamily="@font/inter" />
 
         <EditText
             android:id="@+id/login_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="330dp"
+            android:layout_height="48dp"
             android:hint="@string/hint_login"
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
             android:text=""
             android:textColor="@color/black1"
-            android:textSize="18sp" />
+            android:textSize="16sp"
+            android:fontFamily="@font/inter" />
 
         <EditText
             android:id="@+id/password_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="330dp"
+            android:layout_height="48dp"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:minHeight="48dp"
             android:text=""
             android:textColor="@color/black1"
-            android:textSize="18sp" />
+            android:textSize="16sp"
+            android:fontFamily="@font/inter" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:textSize="16sp"
+            android:fontFamily="@font/inter">
 
             <TextView
                 android:id="@+id/post_field"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_marginTop="-10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
                 android:layout_weight="1"
-                android:minHeight="48dp"
+                android:minHeight="35dp"
                 android:text="@string/post"
-                android:textSize="18sp" />
+                android:textSize="16sp"
+                android:fontFamily="@font/inter" />
 
             <Spinner
                 android:id="@+id/post_spinner"
-                android:layout_width="220dp"
+                android:layout_width="205dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:entries="@array/post_spin"
                 android:minHeight="48dp" />
         </LinearLayout>
+
 
     </LinearLayout>
 

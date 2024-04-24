@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/appl_item_purpose"
-
+            android:fontFamily="@font/inter"
             android:textColor="@color/black1"
             android:textSize="20sp" />
 
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/appl_item_address"
-
+            android:fontFamily="@font/inter"
             android:textColor="@color/black1"
             android:textSize="20sp" />
 
@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/appl_item_date"
-
+            android:fontFamily="@font/inter"
             android:textColor="@color/black1"
             android:textSize="20sp" />
 
@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/appl_item_client"
-
+            android:fontFamily="@font/inter"
             android:textColor="@color/black1"
             android:textSize="20sp" />
 
@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/appl_item_start"
-
+            android:fontFamily="@font/inter"
             android:textColor="@color/black1"
             android:textSize="20sp" />
 
@@ -106,7 +106,7 @@
             android:id="@+id/appl_item_finish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:fontFamily="@font/inter"
             android:text="@string/appl_item_finish"
             android:textColor="@color/black1"
             android:textSize="20sp" />
@@ -126,7 +126,7 @@
             android:id="@+id/appl_item_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:fontFamily="@font/inter"
             android:text="@string/appl_item_comment"
             android:textColor="@color/black1"
             android:textSize="20sp" />
@@ -146,7 +146,7 @@
             android:id="@+id/appl_item_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:fontFamily="@font/inter"
             android:text="@string/appl_item_status"
             android:textColor="@color/black1"
             android:textSize="20sp" />
@@ -166,7 +166,7 @@
             android:id="@+id/appl_item_driver"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:fontFamily="@font/inter"
             android:text="@string/appl_item_driver"
             android:textColor="@color/black1"
             android:textSize="20sp" />
