@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -29,8 +31,10 @@ import com.example.ingradtransport.adapter.ApplicationAdapter;
 import com.example.ingradtransport.adapter.DriverAdapter;
 import com.example.ingradtransport.adapter.EarlyApplicationAdapter;
 import com.example.ingradtransport.adapter.SortApplAdapter;
+import com.example.ingradtransport.adapter.SortEarlyApplAdapter;
 import com.example.ingradtransport.model.Application;
 import com.example.ingradtransport.model.ApproveAppl;
+import com.example.ingradtransport.model.NotApproveAppl;
 import com.example.ingradtransport.model.SortOption;
 import com.example.ingradtransport.model.User;
 import com.example.ingradtransport.preferences.SharedPreferences;
@@ -39,6 +43,7 @@ import com.example.ingradtransport.retrofit.RetrofitClient;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,6 +55,7 @@ import retrofit2.Response;
 public class NewApplicationBossFragment extends Fragment implements EarlyApplicationAdapter.OnDetailsClickListener {
     //private ApplicationAdapter adapter;
     //private SortApplAdapter adapter_sort;
+    private SortEarlyApplAdapter adapter_sort;
     private EarlyApplicationAdapter earlyApplicationAdapter;
     private RecyclerView r_view, r_sort;
     private MainApi mainApi;
@@ -75,13 +81,31 @@ public class NewApplicationBossFragment extends Fragment implements EarlyApplica
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        earlyApplicationAdapter = new EarlyApplicationAdapter(getContext());
-
         r_view = view.findViewById(R.id.r_view);
+        r_sort = view.findViewById(R.id.sortRecycler);
+
         r_view.setLayoutManager(new LinearLayoutManager(getContext()));
+        r_sort.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+
+        List<Application> applications = new ArrayList<>();
+        earlyApplicationAdapter = new EarlyApplicationAdapter(getContext());
         r_view.setAdapter(earlyApplicationAdapter);
 
         earlyApplicationAdapter.setOnDetailsClickListener(this);
+
+        List<SortOption> sortOptions = Arrays.asList(
+                new SortOption("Все", 1),
+                new SortOption("Сегодня", 2),
+                new SortOption("Завтра", 3),
+                new SortOption("Неделя", 4),
+                new SortOption("Месяц", 5)
+        );
+
+        adapter_sort = new SortEarlyApplAdapter(getContext(), sortOptions, sortOption -> {
+            earlyApplicationAdapter.filterApplications(sortOption.getTitle());
+        }, earlyApplicationAdapter);
+
+        r_sort.setAdapter(adapter_sort);
 
         //adapter = new ApplicationAdapter(mContext);
         //r_view.setAdapter(adapter);
@@ -119,6 +143,7 @@ public class NewApplicationBossFragment extends Fragment implements EarlyApplica
                     requireActivity().runOnUiThread(() -> {
                         application.sort(new Application.ApplicationComparator()); // сортировка по дате
                         earlyApplicationAdapter.submitList(application);
+                        earlyApplicationAdapter.updateOriginalApplications(application);
                         //adapter.submitList(application);
                     });
                 }
@@ -179,8 +204,39 @@ public class NewApplicationBossFragment extends Fragment implements EarlyApplica
         dialog.setNegativeButton("Отклонить", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                deleteApplication(application.getId());
-                dialogInterface.dismiss();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext(), R.style.custom_dialog_1);
+                dialog.setTitle("Отклонение заявки");
+                dialog.setMessage("Укажите причину отказа");
+
+                LayoutInflater inflater = LayoutInflater.from(mContext);
+                View not_approve_window = inflater.inflate(R.layout.not_approve_window, null);
+                dialog.setView(not_approve_window);
+
+                RadioGroup radioGroup = not_approve_window.findViewById(R.id.not_approve_radio);
+
+                //deleteApplication(application.getId());
+                //dialogInterface.dismiss();
+
+                dialog.setNeutralButton("Назад", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                dialog.setPositiveButton("Сохранить", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        int selectedId = radioGroup.getCheckedRadioButtonId();
+                        RadioButton radioButton = not_approve_window.findViewById(selectedId);
+                        String selectedReason = radioButton.getText().toString();
+                        if (selectedReason != null) {
+                            notApproveApplication(application.getId(), selectedReason);
+                        }
+                        dialogInterface.dismiss();
+                    }
+                });
+                dialog.show();
             }
         });
 
@@ -199,6 +255,7 @@ public class NewApplicationBossFragment extends Fragment implements EarlyApplica
     }
 
     private void loadDrivers(Spinner spinner) {
+        mainApi = RetrofitClient.getInstance().getMainApi();
         Call<List<User>> call = mainApi.getDrivers();
         call.enqueue(new Callback<List<User>>() {
             @Override
@@ -244,23 +301,47 @@ public class NewApplicationBossFragment extends Fragment implements EarlyApplica
         });
     }
 
-    private void deleteApplication(int id) {
-        Call<Void> call = mainApi.deleteApplication(id);
-        call.enqueue(new Callback<Void>() {
+    private void notApproveApplication(int application_id, String fail_comment) {
+        mainApi = RetrofitClient.getInstance().getMainApi();
+        NotApproveAppl notApproveAppl = new NotApproveAppl(fail_comment);
+        Call<ResponseBody> call = mainApi.notApproveApplication(application_id, notApproveAppl);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
+                    // Обработка успешного согласования
                     Toast.makeText(mContext, "Заявка отклонена успешно", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(mContext, "Ошибка отклонения заявки", Toast.LENGTH_SHORT).show();
+                    // Обработка ошибки обновления
+                    Toast.makeText(mContext, "Ошибка обновления заявки", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                // Обработка ошибки сети
                 Toast.makeText(mContext, "Ошибка сети", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+//    private void deleteApplication(int id) {
+//        Call<Void> call = mainApi.deleteApplication(id);
+//        call.enqueue(new Callback<Void>() {
+//            @Override
+//            public void onResponse(Call<Void> call, Response<Void> response) {
+//                if (response.isSuccessful()) {
+//                    Toast.makeText(mContext, "Заявка отклонена успешно", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(mContext, "Ошибка отклонения заявки", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                Toast.makeText(mContext, "Ошибка сети", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
 }
