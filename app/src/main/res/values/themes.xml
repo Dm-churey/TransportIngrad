@@ -20,6 +20,18 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
+
+    <style name="CustomBottomSheetStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+
+        <item name="android:background">@drawable/top_corners_news</item>
+    </style>
+
     <style name="Theme.ИнградТранспорт.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.ИнградТранспорт.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

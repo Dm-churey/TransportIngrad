@@ -5,6 +5,7 @@ import com.example.ingradtransport.model.ApproveAppl;
 import com.example.ingradtransport.model.AuthCheckRequest;
 import com.example.ingradtransport.model.AuthRequest;
 import com.example.ingradtransport.model.NewApplReq;
+import com.example.ingradtransport.model.News;
 import com.example.ingradtransport.model.NotApproveAppl;
 import com.example.ingradtransport.model.User;
 
@@ -72,6 +73,10 @@ public interface MainApi {
     @PATCH("appl/applications/not_approve/{id}")  // отказ в согласовании заявки
     Call<ResponseBody> notApproveApplication(@Path("id") int application_id,
                                              @Body NotApproveAppl notApproveAppl);
+
+    @Headers("Content-Type: application/json; charset=utf-8") // получение всех новостей
+    @GET("api/user/news")
+    Call<List<News>> getAllNews(@Header("Authorization") String token);
 
     @HTTP(method = "DELETE", path = "appl/applications/{id}", hasBody = true) //удаление заявки при отказе
     Call<Void> deleteApplication(@Path("id") int id);

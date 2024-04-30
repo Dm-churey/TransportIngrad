@@ -49,6 +49,13 @@
 
     <string name="exit_button">Выход</string>
 
+    <string name="search_view"><font size ="16">Что будем искать?</font></string>
+    <string name="welcome_text">Инград Транспорт - заказывайте автомобиль удобно</string>
+    <string name="news">НОВОСТИ</string>
+    <string name="offers">ДЛЯ СОТРУДНИКОВ</string>
+
+    <string name="news_text_1">ИНГРАД планирует в 2024 году сократить время на онлайн-сделку до 15 минут</string>
+
     <string name="menu_button">Кнопка меню</string>
     <string name="lastname_menu">Фамилия</string>
     <string name="name_menu">Имя</string>
