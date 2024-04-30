@@ -46,8 +46,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
         //int imageResId = context.getResources().getIdentifier(news.getImage(), "drawable", context.getPackageName());
         Picasso.get()
                 .load(news.getImage()) // Предполагается, что getImage() возвращает URL изображения
-                .placeholder(R.drawable.bg61)
-                .error(R.drawable.bg511)
+                .fit()
+                .centerCrop()
                 .into(holder.imageView);
         holder.textView.setText(news.getHeader());
         holder.itemView.setOnClickListener(v -> {
@@ -61,8 +61,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
             // Установка изображения и текста в BottomSheetDialog
             Picasso.get()
                     .load(news.getImage()) // Предполагается, что getImage() возвращает URL изображения
-                    .placeholder(R.drawable.bg61)
-                    .error(R.drawable.bg511)
+                    .fit()
+                    .centerCrop()
                     .into(image_item_wind);
             news_item_header.setText(news.getHeader());
             news_item_body.setText(news.getBody());
