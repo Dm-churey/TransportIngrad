@@ -99,6 +99,11 @@ public class BossActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AccountBossFragment()).commit();
                 break;
             }
+            case R.id.settings_btn_menu:
+            {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsBossFragment()).commit();
+                break;
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

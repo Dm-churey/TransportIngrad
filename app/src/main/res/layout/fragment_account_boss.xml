@@ -9,11 +9,21 @@
     tools:context=".bossfragment.AccountBossFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/icon_user" />
+
     <Button
         android:id="@+id/exit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
         android:backgroundTint="@color/yellow"
         android:fontFamily="@font/inter"
         android:text="@string/exit_button"

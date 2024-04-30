@@ -89,6 +89,11 @@ public class WorkerActivity extends AppCompatActivity implements NavigationView.
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_worker, new AccountWorkerFragment()).commit();
                 break;
             }
+            case R.id.settings_btn_menu:
+            {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_worker, new SettingsWorkerFragment()).commit();
+                break;
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

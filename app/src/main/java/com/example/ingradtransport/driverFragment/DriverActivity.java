@@ -90,6 +90,11 @@ public class DriverActivity extends AppCompatActivity implements NavigationView.
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_driver, new AccountDriverFragment()).commit();
                 break;
             }
+            case R.id.settings_btn_menu:
+            {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_driver, new SettingsDriverFragment()).commit();
+                break;
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
