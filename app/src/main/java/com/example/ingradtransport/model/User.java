@@ -11,9 +11,10 @@ public class User {
     private String password;
     private String post;
     private String token;
+    private String image;
     private String message;
 
-    public User(int id, String name, String lastname, String patronymic, int age, String phone, String login, String password, String post, String token, String message) {
+    public User(int id, String name, String lastname, String patronymic, int age, String phone, String login, String password, String post, String token, String image, String message) {
         this.setId(id);
         this.setName(name);
         this.setLastname(lastname);
@@ -24,6 +25,7 @@ public class User {
         this.setPassword(password);
         this.setPost(post);
         this.setToken(token);
+        this.setImage(image);
         this.setMessage(message);
     }
 
@@ -121,6 +123,14 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getMessage() {

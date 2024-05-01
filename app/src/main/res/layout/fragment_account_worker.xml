@@ -8,12 +8,81 @@
     android:id="@+id/account_worker"
     tools:context=".workerFragment.AccountWorkerFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image_account"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="80dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/icon_user" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/image_account"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_above="@+id/exit_button">
+
+        <TextView
+            android:id="@+id/account_lastname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/account_lastname"
+            android:fontFamily="@font/anton"
+            android:textSize="20sp"
+            android:textColor="@color/black1"
+            android:textAllCaps="true"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/account_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:text="@string/account_name"
+            android:fontFamily="@font/anton"
+            android:textSize="20sp"
+            android:textColor="@color/black1"
+            android:textAllCaps="true"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/account_patronymic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:text="@string/account_patronymic"
+            android:fontFamily="@font/anton"
+            android:textSize="20sp"
+            android:textColor="@color/black1"
+            android:textAllCaps="true"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/account_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:text="@string/account_post"
+            android:fontFamily="@font/inter"
+            android:textSize="20sp"
+            android:textColor="@color/black1" />
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/exit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
         android:backgroundTint="@color/yellow"
         android:fontFamily="@font/inter"
         android:text="@string/exit_button"

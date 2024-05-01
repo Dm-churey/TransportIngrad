@@ -10,6 +10,7 @@ public class SharedPreferences {
     Context context;
 
     private static final String FILE_NAME = "CurrentUser";
+    private String image = "null";
 
     public SharedPreferences(Context context) {
         this.context = context;
@@ -28,6 +29,7 @@ public class SharedPreferences {
         prefEditor.putString("login", user.getLogin());
         prefEditor.putString("post", user.getPost());
         prefEditor.putString("token", user.getToken());
+        prefEditor.putString("image", user.getImage());
         prefEditor.apply();
     }
 
@@ -42,6 +44,7 @@ public class SharedPreferences {
         user.setLogin(myPrefs.getString("login", ""));
         user.setPost(myPrefs.getString("post", ""));
         user.setToken(myPrefs.getString("token", ""));
+        user.setImage(myPrefs.getString("image", ""));
         return user;
     }
 
