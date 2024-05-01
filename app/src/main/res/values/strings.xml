@@ -46,7 +46,10 @@
     <string name="third_reason">Близость пункта назначения к метро</string>
     <string name="fourth_reason">Форс-мажорные обстоятельства</string>
 
-
+    <string name="account_lastname">Фамилия</string>
+    <string name="account_name">Имя</string>
+    <string name="account_patronymic">Отчество</string>
+    <string name="account_post">Роль в приложении</string>
     <string name="exit_button">Выход</string>
 
     <string name="search_view"><font size ="16">Что будем искать?</font></string>

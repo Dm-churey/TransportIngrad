@@ -1,11 +1,13 @@
 package com.example.ingradtransport.bossfragment;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +19,6 @@ import android.widget.TextView;
 
 import com.example.ingradtransport.R;
 import com.example.ingradtransport.adapter.NewsAdapter;
-import com.example.ingradtransport.model.Application;
 import com.example.ingradtransport.model.News;
 import com.example.ingradtransport.model.User;
 import com.example.ingradtransport.preferences.SharedPreferences;
@@ -26,6 +27,7 @@ import com.example.ingradtransport.retrofit.RetrofitClient;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,7 +41,8 @@ public class HomeBossFragment extends Fragment {
     private Context mContext;
     private MainApi mainApi;
     ScrollView root;
-    TextView textView;
+    TextView textView, textView_1, textView_2;
+    List<News> originalNewsList = new ArrayList<>();
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -59,6 +62,23 @@ public class HomeBossFragment extends Fragment {
         newsAdapter = new NewsAdapter(mContext, new ArrayList<>());
         recyclerView.setAdapter(newsAdapter);
 
+        textView_1 = view.findViewById(R.id.sort_news);
+        textView_1.setTypeface(Typeface.DEFAULT_BOLD);
+        textView_2 = view.findViewById(R.id.sort_work);
+        textView_2.setTypeface(Typeface.DEFAULT);
+
+        textView_1.setOnClickListener(view1 -> {
+            textView_1.setTypeface(Typeface.DEFAULT_BOLD);
+            textView_2.setTypeface(Typeface.DEFAULT);
+            filterNews("новости");
+        });
+
+        textView_2.setOnClickListener(view1 -> {
+            textView_1.setTypeface(Typeface.DEFAULT);
+            textView_2.setTypeface(Typeface.DEFAULT_BOLD);
+            filterNews("для сотрудников");
+        });
+
         return view;
     }
 
@@ -75,11 +95,14 @@ public class HomeBossFragment extends Fragment {
             @Override
             public void onResponse(Call<List<News>> call, Response<List<News>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<News> news = response.body();
-                    //news.sort(new News.NewsComparator()); // сортировка по дате
-                    //originalApplications = new ArrayList<>(application);
-                    newsAdapter.updateNewsList(news);
-                    //adapter.updateOriginalApplications(application);
+                    originalNewsList =  response.body();
+                    List<News> filteredNewsList = new ArrayList<>();
+                    for (News news : originalNewsList) {
+                        if (news.getSection().equals("новости")) {
+                            filteredNewsList.add(news);
+                        }
+                    }
+                    newsAdapter.updateNewsList(filteredNewsList);
                 } else {
                     textView.setText("Нет новостей");
                 }
@@ -87,9 +110,19 @@ public class HomeBossFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<News>> call, Throwable t) {
-                //textView.setVisibility(View.VISIBLE);
                 Snackbar.make(root, "Ошибка сети", Snackbar.LENGTH_LONG).setTextColor(0XFF101820).setBackgroundTint(0XFFFFFFFF).show();
             }
         });
     }
+
+    private void filterNews(String section) {
+        List<News> filteredNewsList = new ArrayList<>();
+        for (News news : originalNewsList) {
+            if (news.getSection().equals(section)) {
+                filteredNewsList.add(news);
+            }
+        }
+        newsAdapter.updateNewsList(filteredNewsList);
+    }
+
 }

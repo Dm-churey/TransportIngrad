@@ -18,6 +18,7 @@ import com.example.ingradtransport.model.News;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.squareup.picasso.Picasso;
 
+import java.util.Collections;
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
@@ -42,10 +43,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         News news = newsList.get(position);
-        // Предполагается, что image является именем ресурса изображения
         //int imageResId = context.getResources().getIdentifier(news.getImage(), "drawable", context.getPackageName());
         Picasso.get()
-                .load(news.getImage()) // Предполагается, что getImage() возвращает URL изображения
+                .load(news.getImage())
+                .placeholder(R.drawable.fon_load)
+                .error(R.drawable.err_news)
                 .fit()
                 .centerCrop()
                 .into(holder.imageView);
@@ -60,7 +62,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
 
             // Установка изображения и текста в BottomSheetDialog
             Picasso.get()
-                    .load(news.getImage()) // Предполагается, что getImage() возвращает URL изображения
+                    .load(news.getImage())
+                    .placeholder(R.drawable.fon_load)
+                    .error(R.drawable.err_news)
                     .fit()
                     .centerCrop()
                     .into(image_item_wind);
@@ -83,6 +87,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
         this.newsList = newsList;
         notifyDataSetChanged();
     }
+
+//    @SuppressLint("NotifyDataSetChanged")
+//    public void sortNewsBySection(String section) {
+//        Collections.sort(newsList, (n1, n2) -> {
+//            if (n1.getSection().equals(section) && n2.getSection().equals(section)) {
+//                return n1.getHeader().compareTo(n2.getHeader());
+//            }
+//            return n1.getSection().compareTo(n2.getSection());
+//        });
+//        notifyDataSetChanged();
+//    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
