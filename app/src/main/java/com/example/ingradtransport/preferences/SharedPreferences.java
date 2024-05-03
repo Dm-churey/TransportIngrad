@@ -10,7 +10,7 @@ public class SharedPreferences {
     Context context;
 
     private static final String FILE_NAME = "CurrentUser";
-    private String image = "null";
+    //private String image = "null";
 
     public SharedPreferences(Context context) {
         this.context = context;
@@ -46,6 +46,12 @@ public class SharedPreferences {
         user.setToken(myPrefs.getString("token", ""));
         user.setImage(myPrefs.getString("image", ""));
         return user;
+    }
+
+    public void updateImage(String newImage) {
+        prefEditor = myPrefs.edit();
+        prefEditor.putString("image", newImage);
+        prefEditor.apply();
     }
 
 //    public void setEntered(boolean bool) {
