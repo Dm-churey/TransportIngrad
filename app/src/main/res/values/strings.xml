@@ -52,6 +52,9 @@
     <string name="account_post">Роль в приложении</string>
     <string name="exit_button">Выход</string>
 
+    <string name="settings_back">Закрыть</string>
+    <string name="settings_go">Сохранить</string>
+
     <string name="search_view"><font size ="16">Что будем искать?</font></string>
     <string name="welcome_text">Инград Транспорт - заказывайте автомобиль удобно</string>
     <string name="news">НОВОСТИ</string>

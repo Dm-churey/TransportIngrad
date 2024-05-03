@@ -1,42 +1,55 @@
 package com.example.ingradtransport.bossfragment;
 
-import static android.app.Activity.RESULT_OK;
-import static com.soundcloud.android.crop.Crop.RESULT_ERROR;
-
 import android.app.Activity;
 import android.content.Context;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ingradtransport.R;
-import com.soundcloud.android.crop.Crop;;
+import com.example.ingradtransport.driverFragment.DriverActivity;
+import com.example.ingradtransport.model.User;
+import com.example.ingradtransport.preferences.SharedPreferences;
+import com.example.ingradtransport.retrofit.MainApi;
+import com.example.ingradtransport.retrofit.RetrofitClient;
+import com.squareup.picasso.Picasso;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SettingsBossFragment extends Fragment {
 
-    private static final int PICK_IMAGE_REQUEST = 1;
-    private static final int UCROP_REQUEST_CODE = 2;
-    private ActivityResultLauncher<Intent> mCropImageActivityResultLauncher;
-    private ActivityResultLauncher<Intent> mPickImageActivityResultLauncher;
-    private CircleImageView settingsImage;
     private Context mContext;
+    private MainApi mainApi;
+    private CircleImageView settingsImage;
+    private TextView settings_back, settings_go;
+    private Uri filePath;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -49,88 +62,107 @@ public class SettingsBossFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings_boss, container, false);
+
         settingsImage = view.findViewById(R.id.settings_image);
-        //settingsImage.setOnClickListener(v -> openGallery());
 
-        mPickImageActivityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-                        if (data != null) {
-                            beginCrop(data.getData());
-                        }
-                    }
-                });
+        SharedPreferences pref= new SharedPreferences(mContext);
+        User user = pref.getUser();
 
-        mCropImageActivityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-                        if (data != null) {
-                            handleCrop(result.getResultCode(), data);
-                        }
-                    }
-                });
+        if (user.getImage() != null && !user.getImage().isEmpty()) {
+            Picasso.get()
+                    .load("http://10.0.2.2:8080" + user.getImage())
+                    .placeholder(R.drawable.fon_load)
+                    .error(R.drawable.err_news)
+                    .fit()
+                    .centerCrop()
+                    .into(settingsImage);
+        }
 
-        settingsImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Crop.pickImage(getActivity());
-                //Intent pickImageIntent = Crop.pickImage(getActivity());
-                //mPickImageActivityResultLauncher.launch(pickImageIntent);
+        settings_back = view.findViewById(R.id.settings_back);
+        settings_go = view.findViewById(R.id.settings_go);
+
+        settings_back.setOnClickListener(view1 -> {
+            Intent intent = new Intent(mContext, BossActivity.class);
+            startActivity(intent);
+        });
+
+        settings_go.setOnClickListener(view1 -> {
+            if (filePath!= null) {
+                uploadImage();
+            } else {
+                Toast.makeText(mContext, "Выберите изображение", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        settingsImage.setOnClickListener(view1 -> {
+            selectImage();
         });
 
         return view;
     }
 
-    private void beginCrop(Uri source) {
-        Uri destination = Uri.fromFile(new File(mContext.getCacheDir(), "cropped"));
-        Intent cropIntent = Crop.of(source, destination).asSquare().getIntent(getActivity());
-        mCropImageActivityResultLauncher.launch(cropIntent);
+    ActivityResultLauncher<Intent> pickImageActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData()!= null && result.getData().getData()!= null) {
+                        filePath = result.getData().getData();
+
+                        Picasso.get()
+                                .load(filePath)
+                                .placeholder(R.drawable.fon_load)
+                                .error(R.drawable.err_news)
+                                .fit()
+                                .centerCrop()
+                                .into(settingsImage);
+                    }
+                }
+            }
+    );
+
+    private void selectImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        pickImageActivityResultLauncher.launch(intent);
     }
 
-    private void handleCrop(int resultCode, Intent result) {
-        if (resultCode == Activity.RESULT_OK) {
-            settingsImage.setImageURI(Crop.getOutput(result));
-        } else if (resultCode == Crop.RESULT_ERROR) {
-            Toast.makeText(mContext, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+    private void uploadImage() {
+        Bitmap image = null;
+        try {
+            image = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(filePath));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+        byte[] byteArray = stream.toByteArray();
+        RequestBody body = RequestBody.create(MediaType.parse("image/jpeg"), byteArray);
+        String imageUrl = UUID.randomUUID().toString() + ".jpg";
+        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", imageUrl, body);
+
+        mainApi = RetrofitClient.getInstance().getMainApi();
+        SharedPreferences pref= new SharedPreferences(mContext);
+        User user = pref.getUser();
+
+        Call<ResponseBody> call = mainApi.uploadImg(user.getToken(), imagePart);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    pref.updateImage("/uploads/" + imageUrl);
+                    Toast.makeText(mContext, "Изображение успешно сохранено", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mContext, "Не получилось загрузить изображение", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(mContext, "Ошибка сети", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        if (item.getItemId() == R.id.settings_image) {
-//            settingsImage.setImageDrawable(null);
-//            Crop.pickImage(getActivity());
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == Crop.REQUEST_PICK && resultCode == Activity.RESULT_OK) {
-//            beginCrop(data.getData());
-//        } else if (requestCode == Crop.REQUEST_CROP) {
-//            handleCrop(resultCode, data);
-//        }
-//    }
-
-//    private void beginCrop(Uri source) {
-//        Uri destination = Uri.fromFile(new File(mContext.getCacheDir(), "cropped"));
-//        Crop.of(source, destination).asSquare().start(getActivity());
-//    }
-//
-//    private void handleCrop(int resultCode, Intent result) {
-//        if (resultCode == Activity.RESULT_OK) {
-//            settingsImage.setImageURI(Crop.getOutput(result));
-//        } else if (resultCode == Crop.RESULT_ERROR) {
-//            Toast.makeText(mContext, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
 }
