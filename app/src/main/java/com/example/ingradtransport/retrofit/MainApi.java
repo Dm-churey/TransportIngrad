@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -20,10 +21,11 @@ import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface MainApi {
 //    @GET("appl/applications/{id}") //получение заявки по ее id
@@ -77,6 +79,10 @@ public interface MainApi {
     @Headers("Content-Type: application/json; charset=utf-8") // получение всех новостей
     @GET("api/user/news")
     Call<List<News>> getAllNews(@Header("Authorization") String token);
+
+    @Multipart // загрузка изображений
+    @PATCH("upload")
+    Call<ResponseBody> uploadImg(@Header("Authorization") String token, @Part MultipartBody.Part image);
 
     @HTTP(method = "DELETE", path = "appl/applications/{id}", hasBody = true) //удаление заявки при отказе
     Call<Void> deleteApplication(@Path("id") int id);
