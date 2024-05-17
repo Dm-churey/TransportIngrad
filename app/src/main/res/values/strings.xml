@@ -40,6 +40,8 @@
     <string name="text_no_new">Нет новых заявок</string>
     <string name="approve_appl_button">Согласованные заявки</string>
     <string name="new_appl_button">Заказать транспорт</string>
+    <string name="new_appl_drver">НОВЫЕ</string>
+    <string name="conf_appl_drver">ПОДТВЕРЖДЕННЫЕ</string>
 
     <string name="first_reason">Отсуствие транспорта</string>
     <string name="second_reason">Несоотвествие приоритетности предоставления транспорта</string>

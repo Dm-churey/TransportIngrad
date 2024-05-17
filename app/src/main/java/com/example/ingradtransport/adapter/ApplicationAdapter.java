@@ -4,13 +4,17 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,19 +33,33 @@ public class ApplicationAdapter extends ListAdapter<Application, ApplicationAdap
     static class Holder extends RecyclerView.ViewHolder {
         private final TextView textPurpose;
         private final TextView textDate;
+        private final TextView textStatus;
+        private final FrameLayout frameLayout;
         private final Button button_details;
 
         public Holder(View itemView) {
             super(itemView);
             textPurpose = itemView.findViewById(R.id.appl_item_purpose);
             textDate = itemView.findViewById(R.id.appl_item_date);
+            frameLayout = itemView.findViewById(R.id.fr_l);
+            textStatus = itemView.findViewById(R.id.appl_item_status);
             button_details = itemView.findViewById(R.id.button_details);
             button_details.setText("Подробнее");
         }
 
-        public void bind(Application application) {
+        public void bind(Application application, Context context) {
             textPurpose.setText(application.getPurpose());
             textDate.setText("Дата: " + application.getDate());
+            textStatus.setText(application.getStatus());
+            if ("В обработке".equals(application.getStatus())) {
+                frameLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.card_ripple));
+            } else if ("Согласовано".equals(application.getStatus())) {
+                frameLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.approve));
+            } else if ("Отказано".equals(application.getStatus())) {
+                frameLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.denied));
+            } else if ("Подтверждено".equals(application.getStatus())) {
+                frameLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.teal_700));
+            }
         }
     }
 
@@ -75,7 +93,7 @@ public class ApplicationAdapter extends ListAdapter<Application, ApplicationAdap
     @Override
     public void onBindViewHolder(@NonNull ApplicationAdapter.Holder holder, int position) {
         Application application = getItem(position);
-        holder.bind(application);
+        holder.bind(application, context);
         holder.itemView.setVisibility(View.VISIBLE);
 
 
@@ -173,7 +191,6 @@ public class ApplicationAdapter extends ListAdapter<Application, ApplicationAdap
             }
         }
     }
-
 }
 
 //    private Map<Application, Boolean> itemVisibilityMap = new HashMap<>();

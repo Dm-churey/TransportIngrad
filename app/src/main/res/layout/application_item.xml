@@ -42,6 +42,38 @@
                 android:textColor="@color/black1"
                 android:textSize="20sp"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Статус: "
+                    android:textColor="@color/black1"
+                    android:textSize="20sp"/>
+
+                <FrameLayout
+                    android:id="@+id/fr_l"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/appl_item_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/appl_item_status"
+
+                        android:textColor="@color/black1"
+                        android:textSize="20sp"/>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+
+
             <Button
                 android:id="@+id/button_details"
                 android:layout_width="match_parent"
