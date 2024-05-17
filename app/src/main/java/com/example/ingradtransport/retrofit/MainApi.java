@@ -76,6 +76,9 @@ public interface MainApi {
     Call<ResponseBody> notApproveApplication(@Path("id") int application_id,
                                              @Body NotApproveAppl notApproveAppl);
 
+    @PATCH("appl/applications/accept/{id}") // подтверждение принятия заявки водителем
+    Call<Void> acceptApplDriver(@Path("id") int application_id);
+
     @Headers("Content-Type: application/json; charset=utf-8") // получение всех новостей
     @GET("api/user/news")
     Call<List<News>> getAllNews(@Header("Authorization") String token);

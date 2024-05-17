@@ -25,20 +25,53 @@
         android:layout_height="34dp"
         android:layout_below="@+id/my_timetable"
         android:layout_marginStart="2dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="7dp"
         android:layout_marginEnd="2dp" />
+
+    <LinearLayout
+        android:id="@+id/driver_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="7dp"
+        android:layout_below="@+id/sortRecycler">
+
+        <TextView
+            android:id="@+id/new_appl_drver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginEnd="30dp"
+            android:text="@string/new_appl_drver"
+            android:textSize="17sp"
+            android:fontFamily="@font/anton"
+            android:textColor="@color/black1"
+            />
+
+        <TextView
+            android:id="@+id/conf_appl_drver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="25dp"
+            android:text="@string/conf_appl_drver"
+            android:textSize="17sp"
+            android:fontFamily="@font/anton"
+            android:textColor="@color/black1"
+            />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/r_view"
         android:layout_width="409dp"
         android:layout_height="650dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="7dp"
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
-        android:layout_below="@+id/sortRecycler"
+        android:layout_below="@+id/driver_linear"
         android:background="@color/white"
-        android:layout_above="@+id/new_appl_button"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="5dp" />
 
     <TextView
         android:id="@+id/text_no"
@@ -50,19 +83,6 @@
         android:fontFamily="@font/inter"
         android:textColor="@color/black1" />
 
-    <Button
-        android:id="@+id/new_appl_button"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/black1"
-        app:rippleColor="@color/black_ripple"
-        app:cornerRadius="20dp"
-        android:text="@string/new_appl_button"
-        android:fontFamily="@font/inter"
-        android:textColor="@color/white"
-        android:textSize="17sp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15dp"/>
+
 
 </RelativeLayout>
